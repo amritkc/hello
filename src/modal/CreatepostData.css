@@ -1,0 +1,76 @@
+/** @format */
+
+.postdata {
+  width: 50%;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+.postdata__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.postdata__header h3 {
+  font-weight: 900;
+  font-size: 25px;
+}
+.postdata__userinfo {
+  padding: 12px;
+  display: flex;
+}
+.postdata__userinfo h2 {
+  font-size: 16px;
+  padding: 8px;
+}
+.postdata__usertext textarea {
+  resize: none;
+  width: 90%;
+  margin-left: 5px;
+  outline: none;
+  border: none;
+  min-height: 25vh;
+}
+.postdata__one {
+  background-color: #033a6d;
+  color: white;
+  padding: 12px;
+  margin: 0 auto;
+  border-radius: 4px;
+  margin: 8px;
+  outline: none;
+  border: none;
+  width: 95%;
+}
+.postdata__two {
+  background-color: #ccc;
+  color: white;
+  padding: 12px;
+  margin: 0 auto;
+  border-radius: 4px;
+  margin: 8px;
+  outline: none;
+  border: none;
+  width: 95%;
+}
+.postdata__picall {
+  margin: 0 auto;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.postdata__picall h2 {
+  padding-left: 12px;
+  font-size: 12px;
+}
+.postdata__alignleft {
+  float: right;
+}
+@media screen and (max-width: 600px) {
+  .postdata {
+    width: 90%;
+  }
+}
