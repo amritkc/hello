@@ -55,6 +55,31 @@
   padding: 12px;
   background-color: #033a6d;
 }
+.modal__signup {
+  padding: 12px;
+  width: 50%;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  background-color: #ffffff;
+}
+.modal__signup__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.modal__firstname {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+.submit__modal {
+  width: 100%;
+  padding: 12px;
+  color: white;
+  background-color: #033a6d;
+  outline: none;
+  border: none;
+  margin-top: 20px;
+}
 @media (max-width: 1125px) {
   /* big landscape tablets, laptops, and desktops */
   .login_main {
@@ -135,5 +160,8 @@
     width: 90%;
     margin: 0 auto;
     position: relative;
+  }
+  .modal__signup {
+    width: 95%;
   }
 }
