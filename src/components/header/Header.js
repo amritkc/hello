@@ -20,9 +20,13 @@ const useStyles = makeStyles((theme) => ({
 function Header() {
   const classes = useStyles();
   return (
-    <div className='header'>
-      <img src={logo} alt='hello' />
-      <div className='header__left'>
+    <>
+      <div className='header'>
+        <div className='width__ vert-move'>
+          <img src={logo} alt='hello' />
+        </div>
+
+        {/* <div className='width__'>
         <div className='header__profile'>
           <Avatar
             alt='Amrit Khadka'
@@ -31,9 +35,12 @@ function Header() {
           />
           <h2>Amrit</h2>
         </div>
+      </div> */}
+        {/* <div className='header__left'>
         <button>Logout</button>
+      </div> */}
       </div>
-    </div>
+    </>
   );
 }
 

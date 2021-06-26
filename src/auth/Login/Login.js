@@ -1,6 +1,6 @@
 /** @format */
 
-import React from "react";
+import { React, useState } from "react";
 import Grid from "@material-ui/core/Grid";
 import "./Login.css";
 import TextField from "@material-ui/core/TextField";
@@ -9,6 +9,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Modal } from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import Signupmodal from "../../modal/Signupmodal";
+
+const schema = yup.object().shape({
+  email: yup.string().required().email(),
+  password: yup.string().required().min(6),
+});
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -18,9 +27,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 function Login() {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [emailLogin, setEmalLogin] = useState("");
+  const [passwordLogin, setPasswordLogin] = useState("");
 
   const classes = useStyles();
+
+  //yup login
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
+    resolver: yupResolver(schema),
+  });
+  const onSubmit = (data) => {
+    console.log(data);
+  };
+
   const handleOpen = () => {
     setOpen(true);
   };
@@ -44,21 +68,30 @@ function Login() {
             <Grid item xs={12} md={6}>
               <div className='login__rightside'>
                 <div className='login__form'>
-                  <form>
+                  <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                       fullWidth
                       type='email'
                       label='Email'
+                      {...register("email")}
                       variant='outlined'
                     />
                     <br />
+                    <h4 style={{ color: "red", textAlign: "center" }}>
+                      {errors.email?.message}
+                    </h4>
                     <br />
                     <TextField
                       fullWidth
                       label='Password'
                       type='password'
+                      {...register("password")}
                       variant='outlined'
                     />
+                    <br />
+                    <h4 style={{ color: "red", textAlign: "center" }}>
+                      {errors.password?.message}
+                    </h4>
                     <button className='btnlogin'>Please Login</button>
                   </form>
                   <Link
@@ -97,38 +130,7 @@ function Login() {
             </IconButton>
           </div>
           <hr style={{ marginTop: "12px" }} />
-          <div className='modal__body'>
-            <form>
-              <div className='modal__firstname'>
-                <TextField
-                  id='outlined-basic'
-                  label='First Name'
-                  variant='outlined'
-                />
-                <span style={{ marginLeft: "12px" }} />
-                <TextField
-                  id='outlined-basic'
-                  label='Last Name'
-                  variant='outlined'
-                />
-              </div>
-              <TextField
-                fullWidth
-                label='Email'
-                type='Email'
-                variant='outlined'
-              />
-              <br />
-              <br />
-              <TextField
-                fullWidth
-                label='New Password'
-                type='Password'
-                variant='outlined'
-              />
-              <button className='submit__modal'>Submit</button>
-            </form>
-          </div>
+          <Signupmodal />
         </div>
       </Modal>
     </>

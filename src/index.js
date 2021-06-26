@@ -13,6 +13,7 @@ import {
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Login from "./auth/Login/Login";
+import Profile from "./components/profile/Profile";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Route path='/login'>
           <Login />
         </Route>
+        <Route path='/:id' children={<Profile />} />
       </Switch>
     </Router>
   </React.StrictMode>,
