@@ -21,7 +21,9 @@ function Signupmodal() {
   const [lastname, setLastname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [username, setusername] = useState("");
   const [user, setUser] = useState(null);
+  const [usernameexit, setusernameexit] = useState("");
 
   //yup login
   const {
@@ -71,12 +73,29 @@ function Signupmodal() {
       firstname: firstname,
       lastname: lastname,
       email: email,
-      id: auth.currentUser.uid,
+      id: username,
+      uidid: auth.currentUser.uid,
       password: password,
     };
 
     console.log(auth.currentUser);
-    Firestore.collection("users").doc(auth.currentUser.uid).set(docData);
+    Firestore.collection("users").doc(username).set(docData);
+  };
+  const usernamechange = (e) => {
+    if (e.target.value != "") {
+      let docRef = Firestore.collection("users").doc(e.target.value);
+      docRef.get().then((doc) => {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+          setusernameexit("Username Alredy Exists");
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+          setusernameexit("");
+          setusername(e.target.value);
+        }
+      });
+    }
   };
   return (
     <div className="modal__body">
@@ -96,6 +115,16 @@ function Signupmodal() {
             variant="outlined"
           />
         </div>
+        <TextField
+          fullWidth
+          label="Username"
+          type="name"
+          onChange={usernamechange}
+          // {...register("email")}
+          variant="outlined"
+        />
+        <h2 style={{ fontSize: "12px", color: "red" }}>{usernameexit}</h2>
+        <br />
         <TextField
           fullWidth
           label="Email"
