@@ -12,13 +12,13 @@ function RecentPost() {
       setPost(snapshot.docs.map((doc) => doc.data()));
     });
   }, [post]);
-  console.log(post);
+  // console.log(post);
   return (
     <>
-      <div className='recentpost'>
+      <div className="recentpost">
         <h1>Public Post:</h1>
       </div>
-      <div className='recentpost__users'>
+      <div className="recentpost__users">
         {post.map((post) => (
           <Postslist
             username={post.username}

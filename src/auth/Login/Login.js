@@ -1,6 +1,6 @@
 /** @format */
 
-import { React, useState } from "react";
+import { React, useState, useEffect } from "react";
 import Grid from "@material-ui/core/Grid";
 import "./Login.css";
 import TextField from "@material-ui/core/TextField";
@@ -13,6 +13,8 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import Signupmodal from "../../modal/Signupmodal";
+import { auth } from "../../firebase/Firebase";
+import { useHistory } from "react-router-dom";
 
 const schema = yup.object().shape({
   email: yup.string().required().email(),
@@ -30,7 +32,8 @@ function Login() {
   const [open, setOpen] = useState(false);
   const [emailLogin, setEmalLogin] = useState("");
   const [passwordLogin, setPasswordLogin] = useState("");
-
+  const [user, setUser] = useState(null);
+  let history = useHistory();
   const classes = useStyles();
 
   //yup login
@@ -51,14 +54,32 @@ function Login() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  useEffect(() => {
+    auth.onAuthStateChanged((authUser) => {
+      if (authUser) {
+        setUser(true);
+        console.log(authUser.uid);
+        if (user) {
+          history.push("/home");
+        }
+      } else {
+        setUser(null);
+      }
+    });
+  }, []);
+
+  if (user) {
+    history.push("/");
+  }
   return (
     <>
-      <div className='login'>
-        <div className='login_main'>
+      <div className="login">
+        <div className="login_main">
           <Grid container>
             <Grid item xs={12} md={6}>
-              <div className='login__leftside'>
-                <span className='login_span'>Hello</span>
+              <div className="login__leftside">
+                <span className="login_span">Hello</span>
                 <h2>
                   Hello helps you connect with people in your life and share
                   them with you
@@ -66,15 +87,15 @@ function Login() {
               </div>
             </Grid>
             <Grid item xs={12} md={6}>
-              <div className='login__rightside'>
-                <div className='login__form'>
+              <div className="login__rightside">
+                <div className="login__form">
                   <form onSubmit={handleSubmit(onSubmit)}>
                     <TextField
                       fullWidth
-                      type='email'
-                      label='Email'
+                      type="email"
+                      label="Email"
                       {...register("email")}
-                      variant='outlined'
+                      variant="outlined"
                     />
                     <br />
                     <h4 style={{ color: "red", textAlign: "center" }}>
@@ -83,26 +104,27 @@ function Login() {
                     <br />
                     <TextField
                       fullWidth
-                      label='Password'
-                      type='password'
+                      label="Password"
+                      type="password"
                       {...register("password")}
-                      variant='outlined'
+                      variant="outlined"
                     />
                     <br />
                     <h4 style={{ color: "red", textAlign: "center" }}>
                       {errors.password?.message}
                     </h4>
-                    <button className='btnlogin'>Please Login</button>
+                    <button className="btnlogin">Please Login</button>
                   </form>
                   <Link
-                    to='/forgot-password'
-                    style={{ textDecoration: "none" }}>
+                    to="/forgot-password"
+                    style={{ textDecoration: "none" }}
+                  >
                     <h5 style={{ textAlign: "center", marginTop: "12px" }}>
                       Forgot Password?
                     </h5>
                   </Link>
                   <hr style={{ marginTop: "20px", border: "1px solid #ccc" }} />
-                  <button className='btn_createaccount' onClick={handleOpen}>
+                  <button className="btn_createaccount" onClick={handleOpen}>
                     Create a new account
                   </button>
                 </div>
@@ -118,10 +140,11 @@ function Login() {
         closeAfterTransition
         BackdropProps={{
           timeout: 500,
-        }}>
-        <div className='modal__signup'>
-          <div className='modal__signup__header'>
-            <div className='modal__letter'>
+        }}
+      >
+        <div className="modal__signup">
+          <div className="modal__signup__header">
+            <div className="modal__letter">
               <h2>Sign up</h2>
               <h6 style={{ color: "#808080" }}>its's quick and easy</h6>
             </div>

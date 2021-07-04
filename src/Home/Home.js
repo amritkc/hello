@@ -5,8 +5,12 @@ import Header from "../components/header/Header";
 import CreatePosts from "../components/Posts/CreatePosts";
 import Grid from "@material-ui/core/Grid";
 import RecentPost from "../components/RecentPost/RecentPost";
+import { auth } from "../firebase/Firebase";
 
 function Home() {
+  const signout = () => {
+    auth.signOut();
+  };
   return (
     <>
       <Header />
@@ -15,7 +19,9 @@ function Home() {
           <CreatePosts />
           <RecentPost />
         </Grid>
-        <Grid item xs={12} md={4}></Grid>
+        <Grid item xs={12} md={4}>
+          <button onClick={signout}>Signout</button>
+        </Grid>
       </Grid>
     </>
   );
