@@ -23,7 +23,8 @@ function Signupmodal() {
   const [password, setPassword] = useState("");
   const [username, setusername] = useState("");
   const [user, setUser] = useState(null);
-  const [usernameexit, setusernameexit] = useState("");
+  const [usernameexit, setusernameexit] = useState(null);
+  const [disablebtn, setdisablebtn] = useState(false);
 
   //yup login
   const {
@@ -51,6 +52,19 @@ function Signupmodal() {
   //     }
   //   });
   // }, [firstname, user]);
+
+  useEffect(() => {
+    if (firstname != "" && lastname != "" && username != "") {
+      setdisablebtn(true);
+    } else {
+      setdisablebtn(false);
+    }
+    // else if (lastname != "") {
+    //   setdisablebtn(true);
+    // } else if (username != "") {
+    //   setdisablebtn(true);
+    // }
+  }, [firstname, lastname, username]);
 
   const submitbtn = (data) => {
     data.preventDefault();
@@ -88,10 +102,12 @@ function Signupmodal() {
         if (doc.exists) {
           console.log("Document data:", doc.data());
           setusernameexit("Username Alredy Exists");
+          setdisablebtn(false);
         } else {
+          setdisablebtn(true);
           // doc.data() will be undefined in this case
           console.log("No such document!");
-          setusernameexit("");
+          setusernameexit(null);
           setusername(e.target.value);
         }
       });
@@ -144,9 +160,22 @@ function Signupmodal() {
           // {...register("password")}
           variant="outlined"
         />
-        <button type="submit" className="submit__modal" onClick={submitbtn}>
+        {disablebtn == true ? (
+          <button type="submit" className="submit__modal" onClick={submitbtn}>
+            Submit
+          </button>
+        ) : (
+          <button
+            onClick={(data) => data.preventDefault()}
+            className="submit__modal"
+            style={{ backgroundColor: "grey", color: "#ccc" }}
+          >
+            Submit
+          </button>
+        )}
+        {/* <button type="submit" className="submit__modal" onClick={submitbtn}>
           Submit
-        </button>
+        </button> */}
       </form>
     </div>
   );
