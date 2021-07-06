@@ -69,6 +69,16 @@
 .postdata__alignleft {
   float: right;
 }
+input[type="file"] {
+  position: absolute;
+  width: 100%;
+  height: 50px;
+  opacity: 0;
+  cursor: pointer;
+  left: 0px;
+  top: 0px;
+  z-index: 10;
+}
 @media screen and (max-width: 600px) {
   .postdata {
     width: 90%;

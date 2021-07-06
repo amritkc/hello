@@ -45,7 +45,20 @@ function Login() {
     resolver: yupResolver(schema),
   });
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data.email, "email");
+    auth
+      .signInWithEmailAndPassword(data.email, data.password)
+      .then((userCredential) => {
+        // Signed in
+        setUser(true);
+        // var user = userCredential.user;
+        // ...
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        alert(error.message);
+        var errorMessage = error.message;
+      });
   };
 
   const handleOpen = () => {
