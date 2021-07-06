@@ -10,7 +10,7 @@ var firebaseapp = firebase.initializeApp({
   appId: "1:238250459162:web:fb033ad1cb6a1b9e90d1a3",
   measurementId: "G-VS07WRR1M4",
 });
-
+//amrit
 const Firestore = firebaseapp.firestore();
 const auth = firebaseapp.auth();
 const storage = firebaseapp.storage();
