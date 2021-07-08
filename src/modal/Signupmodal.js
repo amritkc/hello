@@ -166,7 +166,7 @@ function Signupmodal() {
           </button>
         ) : (
           <button
-            onClick={(data) => data.preventDefault()}
+            onClick={(e) => e.preventDefault()}
             className="submit__modal"
             style={{ backgroundColor: "grey", color: "#ccc" }}
           >
