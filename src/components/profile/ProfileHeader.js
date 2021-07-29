@@ -4,10 +4,10 @@ import "./CssProfile.css";
 
 function ProfileHeader() {
   return (
-     <>
-      <div className='header'>
-        <div className='width__ vert-move'>
-          <img src={logo} alt='hello' />
+    <>
+      <div className="header">
+        <div className="width__ vert-move">
+          <img src={logo} alt="hello" />
         </div>
 
         {/* <div className='width__'>
