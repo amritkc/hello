@@ -4,6 +4,7 @@
   padding: 12px;
   display: flex;
   align-items: center;
+  background-color: #ffffff;
 }
 .header img {
   float: right;

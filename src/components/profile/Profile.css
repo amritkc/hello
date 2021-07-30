@@ -26,6 +26,7 @@
   display: flex;
 }
 .profile_bio {
+  margin-bottom: 10px;
   margin-top: 12px;
   max-width: 60%;
 }

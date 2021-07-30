@@ -12,6 +12,7 @@ import imgback from "../../assets/icons/imgback.jpg";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import ProfilePost from "./ProfilePost";
+import CreatePosts from "../../components/Posts/CreatePosts";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -95,6 +96,7 @@ function Profile() {
               </div>
             </Grid>
             <Grid item xs={12} md={8}>
+              <CreatePosts />
               <ProfilePost />
             </Grid>
           </Grid>
