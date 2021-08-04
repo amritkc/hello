@@ -9,7 +9,7 @@ function RecentPost() {
   const [post, setPost] = useState([]);
   useEffect(() => {
     Firestore.collection("posts").onSnapshot((snapshot) => {
-      // console.log(snapshot.docs , "datahere");
+      // console.log(snapshot.docs, "datahere");
       setPost(snapshot.docs.map((doc) => doc.data()));
     });
   }, [post]);

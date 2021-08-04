@@ -1,6 +1,6 @@
 /** @format */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CreatepostData.css";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -10,7 +10,7 @@ import { useHistory } from "react-router-dom";
 import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Button from "@material-ui/core/Button";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
-import { storage } from "../firebase/Firebase";
+import { storage, Firestore, auth } from "../firebase/Firebase";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -26,8 +26,47 @@ function CreatepostData() {
   const [textdata, setTextData] = useState("");
   const [img, setimg] = useState(null);
   const [imagename, setimagename] = useState("");
-  const [progress, setprogress] = useState(0);
+  const [progress, setprogress] = useState(10);
+  const [imgurldata, setImagurlDta] = useState("");
+  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [randompostuid, setrandomuid] = useState("");
   const classes = useStyles();
+
+  //featching user data
+  useEffect(() => {
+    let uuid = auth.currentUser.uid.toString();
+    console.log(uuid, "error");
+    Firestore.collection("users")
+      .where("uidid", "==", `${uuid}`)
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          // doc.data() is never undefined for query doc snapshots
+          console.log("amrit", " => ", doc.data());
+          setUsername(doc.data().id);
+          setFirstname(doc.data().firstname);
+          setLastname(doc.data().lastname);
+        });
+      })
+      .catch((error) => {
+        console.log("Error getting documents: ", error);
+      });
+  }, []);
+
+  //updating to firebasedatabse
+  // const setDatatoDatabse = (imgurll, postdataa, randomuid) => {
+  //   var docData = {
+  //     firstname: firstname,
+  //     lastname: lastname,
+  //     id: username,
+  //     imgurl: imgurll,
+  //     postdata: postdataa,
+  //     postid: randomuid,
+  //   };
+  // };
+
   const closeFunction = () => {};
   const handeltext = (e) => {
     let data = e.target.value;
@@ -36,9 +75,70 @@ function CreatepostData() {
   };
   const submitPost = () => {
     if (img != null) {
+      storage
+        .ref()
+        .child(`images/${imagename}`)
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          setImagurlDta(url);
+          let randomuuid = Math.floor(
+            Math.random() * 10000000000000000
+          ).toString();
+          setrandomuid(randomuuid);
+          var d = new Date();
+          var n = d.getMilliseconds();
+          let timesnap = n;
+          var docData = {
+            firstname: firstname,
+            lastname: lastname,
+            username: username,
+            imgurl: url,
+            postdata: textdata,
+            postid: randomuuid,
+            time: timesnap,
+          };
+          Firestore.collection("users")
+            .doc(username)
+            .collection("posts")
+            .doc(randomuuid)
+            .set(docData);
+          Firestore.collection("posts").doc(randomuuid).set(docData);
+          console.log("im here 1");
+        });
+    } else {
+      let randomuuid = Math.floor(Math.random() * 10000000000000000).toString();
+      setrandomuid(randomuuid);
+      var d = new Date();
+      var n = d.getMilliseconds();
+      let timesnap = n;
+      var docData = {
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        imgurl: "",
+        postdata: textdata,
+        postid: randomuuid,
+        time: timesnap,
+      };
+      Firestore.collection("users")
+        .doc(username)
+        .collection("posts")
+        .doc(randomuuid)
+        .set(docData);
+      Firestore.collection("posts").doc(randomuuid).set(docData);
+      console.log("im here 2");
+    }
+  };
+
+  const handelChange = (e) => {
+    if (e.target.files[0]) {
+      setimg(e.target.files[0]);
       let asdimgdata = Math.floor(Math.random() * 10000000000000000).toString();
-      setimagename(asdimgdata);
-      let upload = storage.ref(`images/${imagename}`).put(img);
+      setimagename(`${asdimgdata}${e.target.files[0].name}`);
+      let upload = storage
+        .ref(`images/${asdimgdata}${e.target.files[0].name}`)
+        .put(e.target.files[0]);
       upload.on(
         "state_changes",
         (snapshot) => {
@@ -53,20 +153,6 @@ function CreatepostData() {
           console.log(error, "error");
         }
       );
-      storage
-        .ref("images")
-        .child(`${imagename}`)
-        .getDownloadURL()
-        .then((url) => {
-          console.log(url);
-        });
-    } else {
-    }
-  };
-
-  const handelChange = (e) => {
-    if (e.target.files[0]) {
-      setimg(e.target.files[0]);
     }
   };
   return (

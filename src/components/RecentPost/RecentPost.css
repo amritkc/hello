@@ -1,7 +1,7 @@
 /** @format */
 
 .recentpost {
-  width: 80%;
+  width: 90%;
   border-radius: 8px;
   margin: 0 auto;
   margin-bottom: 2px;
@@ -13,7 +13,7 @@
   font-size: 18px;
 }
 .recentpost__users {
-  width: 80%;
+  width: 90%;
   padding: 12px;
   border-radius: 8px;
   margin: 0 auto;
