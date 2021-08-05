@@ -11,6 +11,7 @@ import PhotoCameraIcon from "@material-ui/icons/PhotoCamera";
 import Button from "@material-ui/core/Button";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
 import { storage, Firestore, auth } from "../firebase/Firebase";
+import firebase from "firebase";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -96,7 +97,7 @@ function CreatepostData() {
             imgurl: url,
             postdata: textdata,
             postid: randomuuid,
-            time: timesnap,
+            time: firebase.firestore.FieldValue.serverTimestamp(),
           };
           Firestore.collection("users")
             .doc(username)
@@ -119,7 +120,7 @@ function CreatepostData() {
         imgurl: "",
         postdata: textdata,
         postid: randomuuid,
-        time: timesnap,
+        time: firebase.firestore.FieldValue.serverTimestamp(),
       };
       Firestore.collection("users")
         .doc(username)

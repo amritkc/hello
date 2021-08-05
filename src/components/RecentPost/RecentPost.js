@@ -8,10 +8,12 @@ import { Firestore } from "../../firebase/Firebase";
 function RecentPost() {
   const [post, setPost] = useState([]);
   useEffect(() => {
-    Firestore.collection("posts").onSnapshot((snapshot) => {
-      // console.log(snapshot.docs, "datahere");
-      setPost(snapshot.docs.map((doc) => doc.data()));
-    });
+    Firestore.collection("posts")
+      .orderBy("time", "desc")
+      .onSnapshot((snapshot) => {
+        // console.log(snapshot.docs, "datahere");
+        setPost(snapshot.docs.map((doc) => doc.data()));
+      });
   }, [post]);
 
   return (

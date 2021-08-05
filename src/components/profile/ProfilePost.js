@@ -6,6 +6,7 @@ import TabList from "@material-ui/lab/TabList";
 import TabPanel from "@material-ui/lab/TabPanel";
 import "./ProfilePost.css";
 import Postslist from "../RecentPost/Postslist";
+import ImageList from "../RecentPost/ImageList";
 import { storage, Firestore, auth } from "../../firebase/Firebase";
 
 function ProfilePost() {
@@ -30,6 +31,7 @@ function ProfilePost() {
           Firestore.collection("users")
             .doc(doc.data().id)
             .collection("posts")
+            .orderBy("time", "desc")
             .onSnapshot((snapshot) => {
               // console.log(snapshot.docs , "datahere");
               setPost(snapshot.docs.map((doc) => doc.data()));
@@ -73,7 +75,16 @@ function ProfilePost() {
             />
           ))}
         </TabPanel>
-        <TabPanel value="2">Images</TabPanel>
+        <TabPanel value="2">
+          {post.map((post) => (
+            <ImageList
+              username={post.username}
+              sun={post.sun}
+              postdata={post.postdata}
+              imgurl={post.imgurl}
+            />
+          ))}
+        </TabPanel>
         <TabPanel value="3">Settings</TabPanel>
       </TabContext>
     </div>
