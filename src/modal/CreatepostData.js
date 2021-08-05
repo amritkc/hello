@@ -23,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#389583",
   },
 }));
-function CreatepostData() {
+function CreatepostData(props) {
+  const { closeDialog } = props;
   const [textdata, setTextData] = useState("");
   const [img, setimg] = useState(null);
   const [imagename, setimagename] = useState("");
@@ -68,7 +69,9 @@ function CreatepostData() {
   //   };
   // };
 
-  const closeFunction = () => {};
+  const closeFunction = () => {
+    closeDialog();
+  };
   const handeltext = (e) => {
     let data = e.target.value;
     setTextData(data);
@@ -107,6 +110,7 @@ function CreatepostData() {
           Firestore.collection("posts").doc(randomuuid).set(docData);
           console.log("im here 1");
         });
+      closeDialog();
     } else {
       let randomuuid = Math.floor(Math.random() * 10000000000000000).toString();
       setrandomuid(randomuuid);
@@ -129,6 +133,7 @@ function CreatepostData() {
         .set(docData);
       Firestore.collection("posts").doc(randomuuid).set(docData);
       console.log("im here 2");
+      closeDialog();
     }
   };
 

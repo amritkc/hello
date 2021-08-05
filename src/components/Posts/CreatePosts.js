@@ -45,21 +45,25 @@ function CreatePosts() {
       background: "rgba(255, 255, 255, 0.39)",
     },
   };
+  function closeDialog() {
+    setOpen(false);
+  }
+
   return (
     <>
-      <div className='createpost'>
-        <div className='createpost__data'>
+      <div className="createpost">
+        <div className="createpost__data">
           <Avatar
-            alt='Amrit Khadka'
-            src='/static/images/avatar/1.jpg'
+            alt="Amrit Khadka"
+            src="/static/images/avatar/1.jpg"
             className={`${classes.small} ${classes.purple}`}
           />
-          <div className='createpoast__post' onClick={handleOpen}>
+          <div className="createpoast__post" onClick={handleOpen}>
             <h2>What's in your mind?</h2>
           </div>
         </div>
         <hr style={{ marginTop: "18px" }} />
-        <div className='createpost__uploadimg'>
+        <div className="createpost__uploadimg">
           <IconButton>
             <PhotoLibraryIcon style={{ color: "#389583" }} />
             <h2>Image/Pictures</h2>
@@ -78,8 +82,9 @@ function CreatePosts() {
         closeAfterTransition
         BackdropProps={{
           timeout: 500,
-        }}>
-        <CreatepostData />
+        }}
+      >
+        <CreatepostData closeDialog={closeDialog} />
       </Modal>
     </>
   );
