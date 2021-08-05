@@ -25,7 +25,7 @@
   "scripts": {
     "heroku-prebuild": "npm install -g serve",
     "devstart": "react-scripts start",
-    "start": "react-scripts start",
+    "start": "serve -s build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
