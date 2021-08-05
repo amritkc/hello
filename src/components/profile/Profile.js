@@ -29,6 +29,9 @@ function Profile() {
   let { id } = useParams();
   const [userId, setUserId] = useState(id);
   const [userIdData, setNotfound] = useState(false);
+  const [username, setUsername] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
 
   useEffect(() => {
     let docRef = Firestore.collection("users").doc(userId);
@@ -38,6 +41,9 @@ function Profile() {
         if (doc.exists) {
           console.log("Document data:", doc.data());
           setNotfound(true);
+          setUsername(doc.data().id);
+          setFirstname(doc.data().firstname);
+          setLastname(doc.data().lastname);
         } else {
           // doc.data() will be undefined in this case
           setNotfound(false);
@@ -72,8 +78,8 @@ function Profile() {
                       className={`${classes.small} ${classes.purple}`}
                     />
                     <div>
-                      <h3>Amrit Khadka</h3>
-                      <h4>amritkadka04</h4>
+                      <h3>{`${firstname}${" "}${lastname}`}</h3>
+                      <h4>{username}</h4>
                     </div>
                   </div>
 
@@ -97,7 +103,7 @@ function Profile() {
             </Grid>
             <Grid item xs={12} md={8}>
               <CreatePosts />
-              <ProfilePost />
+              <ProfilePost id={id} />
             </Grid>
           </Grid>
         </>

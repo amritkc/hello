@@ -9,38 +9,39 @@ import Postslist from "../RecentPost/Postslist";
 import ImageList from "../RecentPost/ImageList";
 import { storage, Firestore, auth } from "../../firebase/Firebase";
 
-function ProfilePost() {
+function ProfilePost(props) {
   const [value, setValue] = useState("1");
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [post, setPost] = useState([]);
   useEffect(() => {
-    let uuid = auth.currentUser.uid.toString();
-    console.log(uuid, "error");
+    // let uuid = auth.currentUser.uid.toString();
+    // console.log(uuid, "error");
+    // Firestore.collection("users")
+    //   .where("uidid", "==", `${uuid}`)
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       // doc.data() is never undefined for query doc snapshots
+    //       console.log("amrit", " => ", doc.data());
+    //       setUsername(doc.data().id);
+    //       setFirstname(doc.data().firstname);
+    //       setLastname(doc.data().lastname);
+    console.log(props.id);
     Firestore.collection("users")
-      .where("uidid", "==", `${uuid}`)
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((doc) => {
-          // doc.data() is never undefined for query doc snapshots
-          console.log("amrit", " => ", doc.data());
-          setUsername(doc.data().id);
-          setFirstname(doc.data().firstname);
-          setLastname(doc.data().lastname);
-          Firestore.collection("users")
-            .doc(doc.data().id)
-            .collection("posts")
-            .orderBy("time", "desc")
-            .onSnapshot((snapshot) => {
-              // console.log(snapshot.docs , "datahere");
-              setPost(snapshot.docs.map((doc) => doc.data()));
-            });
-        });
-      })
-      .catch((error) => {
-        console.log("Error getting documents: ", error);
+      .doc(props.id)
+      .collection("posts")
+      .orderBy("time", "desc")
+      .onSnapshot((snapshot) => {
+        // console.log(snapshot.docs , "datahere");
+        setPost(snapshot.docs.map((doc) => doc.data()));
       });
+    //   });
+    // })
+    // .catch((error) => {
+    //   console.log("Error getting documents: ", error);
+    // });
   }, []);
 
   const handleChange = (event, newValue) => {
