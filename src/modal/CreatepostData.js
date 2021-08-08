@@ -28,8 +28,9 @@ function CreatepostData(props) {
   const [textdata, setTextData] = useState("");
   const [img, setimg] = useState(null);
   const [imagename, setimagename] = useState("");
-  const [progress, setprogress] = useState(10);
+  const [progress, setprogress] = useState(0);
   const [imgurldata, setImagurlDta] = useState("");
+  const [srcimage, setsrc] = useState("");
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
@@ -140,6 +141,7 @@ function CreatepostData(props) {
   const handelChange = (e) => {
     if (e.target.files[0]) {
       setimg(e.target.files[0]);
+      setsrc(URL.createObjectURL(e.target.files[0]));
       let asdimgdata = Math.floor(Math.random() * 10000000000000000).toString();
       setimagename(`${asdimgdata}${e.target.files[0].name}`);
       let upload = storage
@@ -160,6 +162,10 @@ function CreatepostData(props) {
         }
       );
     }
+  };
+  // console.log(img);
+  const handelremoveImg = () => {
+    setimg(null);
   };
   return (
     <div className="postdata">
@@ -188,6 +194,18 @@ function CreatepostData(props) {
           onChange={handeltext}
         ></textarea>
       </div>
+      {img == null ? (
+        <></>
+      ) : (
+        <div className="imageDataShow">
+          <img src={srcimage} alt="img" />
+          <progress id="file" value={progress} max="100" />
+          <IconButton onClick={handelremoveImg}>
+            <CloseIcon />
+          </IconButton>
+        </div>
+      )}
+
       <div className="postdata__picall">
         <div>
           <h2>Add To Your Post</h2>

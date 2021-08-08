@@ -79,6 +79,24 @@ input[type="file"] {
   top: 0px;
   z-index: 10;
 }
+.imageDataShow {
+  margin: 0 auto;
+  margin-bottom: 4px;
+  width: 90%;
+  justify-content: space-between;
+  border: 2px solid;
+  display: flex;
+}
+.imageDataShow img {
+  margin-top: 4px;
+  height: 40px;
+  width: 60px;
+  object-fit: contain;
+}
+.imageDataShow progress {
+  width: 60%;
+  margin-top: 12px;
+}
 @media screen and (max-width: 600px) {
   .postdata {
     width: 90%;
