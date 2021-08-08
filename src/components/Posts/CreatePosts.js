@@ -9,6 +9,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CreatepostData from "../../modal/CreatepostData";
 import InsertEmoticonIcon from "@material-ui/icons/InsertEmoticon";
 import PhotoLibraryIcon from "@material-ui/icons/PhotoLibrary";
+import { auth } from "../../firebase/Firebase";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -34,8 +36,13 @@ const useStyles = makeStyles((theme) => ({
 function CreatePosts() {
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
+  let history = useHistory();
   const handleOpen = () => {
-    setOpen(true);
+    if (auth.currentUser === null) {
+      history.push("/login");
+    } else {
+      setOpen(true);
+    }
   };
   const handleClose = () => {
     setOpen(false);

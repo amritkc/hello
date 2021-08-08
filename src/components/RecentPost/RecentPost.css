@@ -26,6 +26,7 @@
 }
 .postlist__header {
   display: flex;
+  cursor: pointer;
   align-items: center;
 }
 .postlist__header h2 {

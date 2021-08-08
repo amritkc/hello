@@ -7,6 +7,7 @@ import Avatar from "@material-ui/core/Avatar";
 import SmsIcon from "@material-ui/icons/Sms";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import IconButton from "@material-ui/core/IconButton";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -31,23 +32,28 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Postslist(props) {
   const classes = useStyles();
+  let history = useHistory();
+  const openProfile = () => {
+    history.push(`/${props.username}`);
+  };
+
   return (
     <>
-      <div className='postlist'>
-        <div className='postlist__header'>
+      <div className="postlist">
+        <div className="postlist__header" onClick={openProfile}>
           <Avatar
             alt={props.username}
-            src='/static/images/avatar/1.jpg'
+            src="/static/images/avatar/1.jpg"
             className={`${classes.small} ${classes.purple}`}
           />
           <h2>{props.username}</h2>
         </div>
-        <div className='postlist__body'>
+        <div className="postlist__body">
           <h2>{props.postdata}</h2>
           <img src={props.imgurl} />
         </div>
-        <div className='postlist__footer'>
-          <div className='Postlist__footer_button'>
+        <div className="postlist__footer">
+          <div className="Postlist__footer_button">
             {props.sun == true ? (
               <IconButton>
                 <WbSunnyIcon style={{ color: "#F02849" }} />
