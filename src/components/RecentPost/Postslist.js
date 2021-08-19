@@ -8,6 +8,7 @@ import SmsIcon from "@material-ui/icons/Sms";
 import WbSunnyIcon from "@material-ui/icons/WbSunny";
 import IconButton from "@material-ui/core/IconButton";
 import { useHistory } from "react-router-dom";
+import Comments from "../Comments/Comments";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -69,6 +70,7 @@ function Postslist(props) {
           </div>
         </div>
       </div>
+      <Comments data={props.data} />
       <hr />
     </>
   );
