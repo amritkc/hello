@@ -7,12 +7,16 @@ import ProfileHeader from "./ProfileHeader";
 import Grid from "@material-ui/core/Grid";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles } from "@material-ui/core/styles";
+import { Modal } from "@material-ui/core";
 import "./Profile.css";
+import "./profile.scss";
 import imgback from "../../assets/icons/imgback.jpg";
 import EditIcon from "@material-ui/icons/Edit";
 import IconButton from "@material-ui/core/IconButton";
 import ProfilePost from "./ProfilePost";
 import CreatePosts from "../../components/Posts/CreatePosts";
+import Editmodal from "../../modal/Editmodal";
+import logo from "../../assets/icons/logo_large.png";
 
 const useStyles = makeStyles((theme) => ({
   small: {
@@ -23,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.getContrastText("#389583"),
     backgroundColor: "#389583",
   },
+  modal: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 }));
 function Profile() {
   const classes = useStyles();
@@ -32,6 +41,9 @@ function Profile() {
   const [username, setUsername] = useState("");
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
+  const [alldata, setalldata] = useState({});
+  const [open, setOpen] = useState(false);
+  const [check, setCheck] = useState(1);
 
   useEffect(() => {
     let docRef = Firestore.collection("users").doc(userId);
@@ -41,12 +53,15 @@ function Profile() {
         if (doc.exists) {
           console.log("Document data:", doc.data());
           setNotfound(true);
+          setalldata(doc.data());
           setUsername(doc.data().id);
           setFirstname(doc.data().firstname);
           setLastname(doc.data().lastname);
+          setCheck(2);
         } else {
           // doc.data() will be undefined in this case
           setNotfound(false);
+          setCheck(0);
           console.log("No such document!");
         }
       })
@@ -54,13 +69,66 @@ function Profile() {
         console.log("Error getting document:", error);
       });
   }, []);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+  function closeDialog() {
+    setOpen(false);
+  }
   return (
     <div className="profile">
-      <ProfileHeader />
-      {/* <h1>{userIdData}</h1> */}
+      {check == 0 ? (
+        <>
+          <div class="box">
+            <div className="width__ vert-move box__ghost">
+              <img src={logo} alt="hello" />
+            </div>
+            <div class="box__description">
+              <div class="box__description-container">
+                <div class="box__description-title">Whoops!</div>
+                <div class="box__description-text">User {id} Not Found !</div>
+              </div>
+
+              <a href="/" class="box__button">
+                Go back
+              </a>
+            </div>
+          </div>
+        </>
+      ) : (
+        <></>
+      )}
+
       {userIdData == false ? (
         <>
-          <h1>{`User ${id} Not Found`}</h1>
+          {check == 1 ? (
+            <>
+              <div className="loader">
+                <div className="loader-inner">
+                  <div className="loader-line-wrap">
+                    <div className="loader-line"></div>
+                  </div>
+                  <div className="loader-line-wrap">
+                    <div className="loader-line"></div>
+                  </div>
+                  <div className="loader-line-wrap">
+                    <div className="loader-line"></div>
+                  </div>
+                  <div className="loader-line-wrap">
+                    <div className="loader-line"></div>
+                  </div>
+                  <div className="loader-line-wrap">
+                    <div className="loader-line"></div>
+                  </div>
+                </div>
+              </div>
+            </>
+          ) : (
+            <></>
+          )}
         </>
       ) : (
         <>
@@ -84,7 +152,7 @@ function Profile() {
                   </div>
 
                   <div className="editprofile">
-                    <IconButton>
+                    <IconButton onClick={handleOpen}>
                       <EditIcon />
                     </IconButton>
                   </div>
@@ -106,6 +174,17 @@ function Profile() {
               <ProfilePost id={id} />
             </Grid>
           </Grid>
+          <Modal
+            className={classes.modal}
+            open={open}
+            onClose={handleClose}
+            closeAfterTransition
+            BackdropProps={{
+              timeout: 500,
+            }}
+          >
+            <Editmodal closeDialog={closeDialog} data={alldata} />
+          </Modal>
         </>
       )}
     </div>

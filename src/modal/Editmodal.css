@@ -1,0 +1,21 @@
+.editprofilea{
+    width: 40%;
+  border-radius: 6px;
+  background-color: #ffffff;
+}
+
+@media screen and (max-width: 1000px) {
+    .editprofilea{
+        width: 55%;
+    }
+      }
+@media screen and (max-width: 900px) {
+.editprofilea{
+    width: 70%;
+}
+  }
+  @media screen and (max-width: 700px) {
+    .editprofilea{
+        width: 80%;
+    }
+      }
